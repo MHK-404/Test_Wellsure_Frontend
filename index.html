@@ -4,260 +4,817 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Insurance Risk Assessment</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --physical: #4cc9f0;
+      --mental: #7209b7;
+      --lifestyle: #f72585;
+      --personal: #4895ef;
+      --success: #4caf50;
+      --warning: #ff9800;
+      --danger: #f44336;
+      --light: #f8f9fa;
+      --dark: #212529;
+    }
+    
     * {
       box-sizing: border-box;
       font-family: 'Inter', sans-serif;
     }
+    
     body {
       margin: 0;
       background: #f0f4f8;
       color: #333;
       padding: 2rem;
+      line-height: 1.6;
     }
+    
     h1 {
       text-align: center;
       margin-bottom: 2rem;
+      color: var(--primary);
+      font-weight: 700;
     }
+    
     form {
       background: #fff;
       max-width: 900px;
       margin: 0 auto;
       padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
     }
+    
     fieldset {
       border: none;
       margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 12px;
+      background: var(--light);
     }
+    
+    fieldset.personal-info {
+      border-left: 5px solid var(--personal);
+      background: rgba(72, 149, 239, 0.05);
+    }
+    
+    fieldset.physical-health {
+      border-left: 5px solid var(--physical);
+      background: rgba(76, 201, 240, 0.05);
+    }
+    
+    fieldset.mental-health {
+      border-left: 5px solid var(--mental);
+      background: rgba(114, 9, 183, 0.05);
+    }
+    
+    fieldset.lifestyle {
+      border-left: 5px solid var(--lifestyle);
+      background: rgba(247, 37, 133, 0.05);
+    }
+    
     legend {
       font-size: 1.3rem;
       font-weight: 600;
       margin-bottom: 1rem;
+      padding: 0 10px;
+      color: var(--dark);
     }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    
     label {
       display: block;
-      margin: 1rem 0 0.5rem;
+      margin-bottom: 0.5rem;
       font-weight: 500;
+      color: var(--dark);
     }
+    
+    .help-tip {
+      display: inline-block;
+      margin-left: 5px;
+      color: var(--primary);
+      cursor: help;
+      position: relative;
+    }
+    
+    .help-tip:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 200px;
+      padding: 10px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 100;
+      font-size: 0.9rem;
+      font-weight: normal;
+      color: #333;
+    }
+    
     input, select, textarea {
       width: 100%;
-      padding: 0.7rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border 0.3s ease;
     }
-    .checkbox-group label {
-      display: inline-block;
-      margin-right: 1rem;
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
     }
+    
+    .checkbox-group, .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .checkbox-group label, .radio-group label {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      padding: 0.5rem 1rem;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .checkbox-group label:hover, .radio-group label:hover {
+      border-color: var(--primary);
+    }
+    
+    .checkbox-group input[type="checkbox"], 
+    .radio-group input[type="radio"] {
+      width: auto;
+      margin-right: 0.5rem;
+    }
+    
     .submit-btn {
       display: block;
       width: 100%;
       padding: 1rem;
-      background: #0077cc;
+      background: var(--primary);
       color: white;
       border: none;
-      border-radius: 6px;
-      font-size: 1rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
       cursor: pointer;
       margin-top: 1rem;
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
     }
+    
     .submit-btn:hover {
-      background: #005fa3;
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-    .result-box {
+    
+    .result-container {
       max-width: 900px;
       margin: 2rem auto 0;
-      padding: 1.5rem;
-      background: #ffffff;
-      border-left: 6px solid #0077cc;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       display: none;
     }
+    
+    .result-box {
+      padding: 2rem;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+    
     .result-box h2 {
       margin-top: 0;
+      color: var(--primary);
+      border-bottom: 2px solid #eee;
+      padding-bottom: 1rem;
+    }
+    
+    .risk-level {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 1rem 0;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .risk-low {
+      background-color: rgba(76, 175, 80, 0.2);
+      color: var(--success);
+      border-left: 5px solid var(--success);
+    }
+    
+    .risk-moderate {
+      background-color: rgba(255, 152, 0, 0.2);
+      color: var(--warning);
+      border-left: 5px solid var(--warning);
+    }
+    
+    .risk-high {
+      background-color: rgba(244, 67, 54, 0.2);
+      color: var(--danger);
+      border-left: 5px solid var(--danger);
+    }
+    
+    .recommendations {
+      margin-top: 1.5rem;
+    }
+    
+    .recommendations h3 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .recommendations ul {
+      padding-left: 1.5rem;
+    }
+    
+    .recommendations li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .dashboard {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .dashboard-item {
+      flex: 1;
+      min-width: 200px;
+      padding: 1rem;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .dashboard-item h3 {
+      margin-top: 0;
+      font-size: 1rem;
+      color: var(--dark);
+    }
+    
+    .dashboard-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .action-btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .pdf-btn {
+      background: var(--danger);
+      color: white;
+    }
+    
+    .pdf-btn:hover {
+      background: #d32f2f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .conditional-question {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      form {
+        padding: 1rem;
+      }
+      
+      .checkbox-group, .radio-group {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .dashboard {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Insurance Risk Assessment</h1>
+  <h1><i class="fas fa-shield-alt"></i> Insurance Risk Assessment</h1>
   <form id="riskForm">
-    <fieldset>
+    <fieldset class="personal-info">
       <legend>Personal Information</legend>
-      <label>Age</label>
-      <input type="number" name="age" required>
-
-      <label>Gender</label>
-      <select name="gender">
-        <option>Male</option>
-        <option>Female</option>
-        <option>Other</option>
-        <option>Prefer not to say</option>
-      </select>
-
-      <label>Marital Status</label>
-      <select name="marital">
-        <option>Single</option>
-        <option>Married</option>
-        <option>Divorced</option>
-        <option>Widowed</option>
-      </select>
-
-      <label>Occupation Type</label>
-      <select name="occupation">
-        <option>Sedentary</option>
-        <option>Moderately Active</option>
-        <option>Physically Demanding</option>
-      </select>
+      
+      <div class="form-group">
+        <label>Age <span class="help-tip" data-tooltip="Please enter your current age in years">?</span></label>
+        <input type="number" name="age" min="18" max="100" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Gender</label>
+        <select name="gender">
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+          <option>Prefer not to say</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Marital Status</label>
+        <select name="marital">
+          <option>Single</option>
+          <option>Married</option>
+          <option>Divorced</option>
+          <option>Widowed</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Occupation Type</label>
+        <select name="occupation">
+          <option>Sedentary (mostly sitting)</option>
+          <option>Light Activity (some walking)</option>
+          <option>Moderately Active (regular movement)</option>
+          <option>Very Active (physically demanding)</option>
+          <option>Extremely Active (heavy labor)</option>
+        </select>
+      </div>
     </fieldset>
 
-    <fieldset>
+    <fieldset class="physical-health">
       <legend>Physical Health</legend>
-      <label>Do you smoke?</label>
-      <select name="smoke">
-        <option>No</option>
-        <option>Yes</option>
-      </select>
-
-      <label>Chronic Conditions</label>
-      <div class="checkbox-group">
-        <label><input type="checkbox" name="conditions" value="diabetes"> Diabetes</label>
-        <label><input type="checkbox" name="conditions" value="hypertension"> Hypertension</label>
-        <label><input type="checkbox" name="conditions" value="asthma"> Asthma</label>
-        <label><input type="checkbox" name="conditions" value="cholesterol"> High Cholesterol</label>
-        <label><input type="checkbox" name="conditions" value="none"> None</label>
+      
+      <div class="form-group">
+        <label>Do you smoke? <span class="help-tip" data-tooltip="Includes cigarettes, cigars, pipes, or vaping">?</span></label>
+        <select name="smoke">
+          <option>No</option>
+          <option>Yes, occasionally</option>
+          <option>Yes, regularly</option>
+          <option>Former smoker</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>If you smoke, how many per day?</label>
+        <select name="smokeAmount" class="conditional-question">
+          <option>Less than 5</option>
+          <option>5-10</option>
+          <option>10-20</option>
+          <option>More than 20</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Do you consume alcohol?</label>
+        <select name="alcohol">
+          <option>No</option>
+          <option>Occasionally (1-2 drinks/week)</option>
+          <option>Moderately (3-7 drinks/week)</option>
+          <option>Regularly (8+ drinks/week)</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Chronic Conditions <span class="help-tip" data-tooltip="Select all that apply to you">?</span></label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="conditions" value="diabetes"> Diabetes</label>
+          <label><input type="checkbox" name="conditions" value="hypertension"> Hypertension</label>
+          <label><input type="checkbox" name="conditions" value="asthma"> Asthma</label>
+          <label><input type="checkbox" name="conditions" value="cholesterol"> High Cholesterol</label>
+          <label><input type="checkbox" name="conditions" value="heart"> Heart Disease</label>
+          <label><input type="checkbox" name="conditions" value="arthritis"> Arthritis</label>
+          <label><input type="checkbox" name="conditions" value="none"> None</label>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Height (cm)</label>
+        <input type="number" name="height" min="100" max="250">
+      </div>
+      
+      <div class="form-group">
+        <label>Weight (kg)</label>
+        <input type="number" name="weight" min="30" max="200">
+      </div>
+      
+      <div class="form-group">
+        <label>How often do you exercise?</label>
+        <select name="exercise">
+          <option>Never</option>
+          <option>Rarely (less than once a week)</option>
+          <option>1-2 times per week</option>
+          <option>3-4 times per week</option>
+          <option>5 or more times per week</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Type of exercise you do most often</label>
+        <select name="exerciseType">
+          <option>None</option>
+          <option>Walking</option>
+          <option>Running/Jogging</option>
+          <option>Cycling</option>
+          <option>Swimming</option>
+          <option>Weight Training</option>
+          <option>Yoga/Pilates</option>
+          <option>Team Sports</option>
+          <option>Other</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Average hours of sleep per night</label>
+        <select name="sleep">
+          <option>Less than 5</option>
+          <option>5-6</option>
+          <option>6-7</option>
+          <option>7-8</option>
+          <option>More than 8</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>How would you rate your diet?</label>
+        <select name="diet">
+          <option>Poor (mostly processed foods)</option>
+          <option>Fair (some healthy choices)</option>
+          <option>Good (balanced diet)</option>
+          <option>Excellent (mostly whole foods, balanced)</option>
+        </select>
       </div>
     </fieldset>
 
-    <fieldset>
+    <fieldset class="mental-health">
       <legend>Mental Health</legend>
-
-      <label>How often do you feel overwhelmed?</label>
-      <select name="overwhelmed">
-        <option>Rarely</option>
-        <option>Sometimes</option>
-        <option>Often</option>
-        <option>Almost always</option>
-      </select>
-
-      <label>Do you find it hard to concentrate lately?</label>
-      <select name="concentration">
-        <option>No</option>
-        <option>Occasionally</option>
-        <option>Frequently</option>
-      </select>
-
-      <label>Stress Level</label>
-      <select name="stress">
-        <option value="1">1 - Very Low</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5 - Moderate</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10 - Very High</option>
-      </select>
-
-      <label>Mental Well-being Rating</label>
-      <select name="mentalWellbeing">
-        <option value="1">1 - Very Poor</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5 - Fair</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10 - Excellent</option>
-      </select>
-
-      <label>Have you consulted a mental health professional?</label>
-      <select name="mentalSupport">
-        <option>No</option>
-        <option>Yes</option>
-      </select>
-
-      <label>Check all that apply (past 6 months)</label>
-      <div class="checkbox-group">
-        <label><input type="checkbox" name="mentalIssues" value="stress"> Frequent stress</label>
-        <label><input type="checkbox" name="mentalIssues" value="anxiety"> Anxiety</label>
-        <label><input type="checkbox" name="mentalIssues" value="depression"> Depression</label>
-        <label><input type="checkbox" name="mentalIssues" value="insomnia"> Trouble sleeping</label>
-        <label><input type="checkbox" name="mentalIssues" value="none"> None</label>
+      
+      <div class="form-group">
+        <label>How often do you feel overwhelmed?</label>
+        <select name="overwhelmed">
+          <option>Rarely or never</option>
+          <option>Sometimes</option>
+          <option>Often</option>
+          <option>Almost always</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Do you find it hard to concentrate lately?</label>
+        <select name="concentration">
+          <option>No, not at all</option>
+          <option>Occasionally</option>
+          <option>Frequently</option>
+          <option>Almost always</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Stress Level (1-10 scale)</label>
+        <select name="stress">
+          <option value="1">1 - Very Low</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 - Moderate</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10 - Very High</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Mental Well-being Rating (1-10 scale)</label>
+        <select name="mentalWellbeing">
+          <option value="1">1 - Very Poor</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 - Fair</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10 - Excellent</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Have you consulted a mental health professional in the past year?</label>
+        <select name="mentalSupport">
+          <option>No</option>
+          <option>Yes, once or twice</option>
+          <option>Yes, regularly</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Check all that apply (past 6 months)</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="mentalIssues" value="stress"> Frequent stress</label>
+          <label><input type="checkbox" name="mentalIssues" value="anxiety"> Anxiety</label>
+          <label><input type="checkbox" name="mentalIssues" value="depression"> Depression</label>
+          <label><input type="checkbox" name="mentalIssues" value="insomnia"> Trouble sleeping</label>
+          <label><input type="checkbox" name="mentalIssues" value="panic"> Panic attacks</label>
+          <label><input type="checkbox" name="mentalIssues" value="mood"> Mood swings</label>
+          <label><input type="checkbox" name="mentalIssues" value="none"> None</label>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>How often do you practice relaxation techniques?</label>
+        <select name="relaxationPractice">
+          <option>Never</option>
+          <option>Rarely</option>
+          <option>1-2 times per week</option>
+          <option>3-5 times per week</option>
+          <option>Daily</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Do you feel supported by friends/family?</label>
+        <select name="socialSupport">
+          <option>Not at all</option>
+          <option>Somewhat</option>
+          <option>Moderately</option>
+          <option>Very supported</option>
+          <option>Extremely supported</option>
+        </select>
       </div>
     </fieldset>
 
-    <fieldset>
+    <fieldset class="lifestyle">
       <legend>Lifestyle & Environment</legend>
-      <label>Screen Time (non-work)</label>
-      <select name="screenTime">
-        <option>Less than 2 hours</option>
-        <option>2–4 hours</option>
-        <option>5–6 hours</option>
-        <option>More than 6 hours</option>
-      </select>
-
-      <label>Do you have pets?</label>
-      <select name="pets">
-        <option>No</option>
-        <option>Yes</option>
-      </select>
-
-      <label>Air Quality in Your Region</label>
-      <select name="airQuality">
-        <option>Good</option>
-        <option>Moderate</option>
-        <option>Poor</option>
-      </select>
-
-      <label>Engagement in stress-relieving activities</label>
-      <select name="relaxation">
-        <option>Never</option>
-        <option>Rarely</option>
-        <option>Occasionally</option>
-        <option>Regularly</option>
-      </select>
+      
+      <div class="form-group">
+        <label>Screen Time (non-work)</label>
+        <select name="screenTime">
+          <option>Less than 2 hours</option>
+          <option>2–4 hours</option>
+          <option>5–6 hours</option>
+          <option>More than 6 hours</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Do you have pets?</label>
+        <select name="pets">
+          <option>No</option>
+          <option>Yes, one</option>
+          <option>Yes, multiple</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Air Quality in Your Region</label>
+        <select name="airQuality">
+          <option>Good</option>
+          <option>Moderate</option>
+          <option>Poor</option>
+          <option>Very Poor</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Engagement in stress-relieving activities</label>
+        <select name="relaxation">
+          <option>Never</option>
+          <option>Rarely</option>
+          <option>Occasionally</option>
+          <option>Regularly</option>
+          <option>Daily</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>How often do you take vacations?</label>
+        <select name="vacations">
+          <option>Never</option>
+          <option>Rarely (every few years)</option>
+          <option>Every year</option>
+          <option>Twice a year</option>
+          <option>More than twice a year</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Commute Time (one way)</label>
+        <select name="commute">
+          <option>Work from home</option>
+          <option>Less than 15 minutes</option>
+          <option>15-30 minutes</option>
+          <option>30-60 minutes</option>
+          <option>More than 60 minutes</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Commute Type</label>
+        <select name="commuteType">
+          <option>N/A (work from home)</option>
+          <option>Walking</option>
+          <option>Cycling</option>
+          <option>Public Transport</option>
+          <option>Driving</option>
+        </select>
+      </div>
     </fieldset>
 
-    <button type="submit" class="submit-btn">Submit Assessment</button>
+    <button type="submit" class="submit-btn">Submit Assessment <i class="fas fa-arrow-right"></i></button>
   </form>
 
-  <div class="result-box" id="resultBox">
-    <h2>Assessment Result</h2>
-    <p id="riskResult">Loading...</p>
+  <div class="result-container" id="resultContainer">
+    <div class="result-box">
+      <h2><i class="fas fa-chart-line"></i> Risk Assessment Results</h2>
+      
+      <div id="riskLevel" class="risk-level">
+        <!-- Will be filled by JavaScript -->
+      </div>
+      
+      <div class="dashboard">
+        <div class="dashboard-item">
+          <h3>Physical Health Score</h3>
+          <div class="dashboard-value" id="physicalScore">--</div>
+          <div id="physicalBar" style="height: 10px; background: #eee; border-radius: 5px; margin-top: 0.5rem;">
+            <div style="height: 100%; width: 0%; background: var(--physical); border-radius: 5px;"></div>
+          </div>
+        </div>
+        
+        <div class="dashboard-item">
+          <h3>Mental Health Score</h3>
+          <div class="dashboard-value" id="mentalScore">--</div>
+          <div id="mentalBar" style="height: 10px; background: #eee; border-radius: 5px; margin-top: 0.5rem;">
+            <div style="height: 100%; width: 0%; background: var(--mental); border-radius: 5px;"></div>
+          </div>
+        </div>
+        
+        <div class="dashboard-item">
+          <h3>Lifestyle Score</h3>
+          <div class="dashboard-value" id="lifestyleScore">--</div>
+          <div id="lifestyleBar" style="height: 10px; background: #eee; border-radius: 5px; margin-top: 0.5rem;">
+            <div style="height: 100%; width: 0%; background: var(--lifestyle); border-radius: 5px;"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="recommendations">
+        <h3><i class="fas fa-lightbulb"></i> Recommendations</h3>
+        <div id="recommendationsList">
+          <!-- Will be filled by JavaScript -->
+        </div>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="action-btn pdf-btn" id="pdfBtn">
+          <i class="fas fa-file-pdf"></i> Download PDF Report
+        </button>
+      </div>
+    </div>
   </div>
 
   <script>
+    // Show conditional question based on smoking status
+    document.querySelector('select[name="smoke"]').addEventListener('change', function() {
+      const smokeAmountField = document.querySelector('select[name="smokeAmount"]');
+      if (this.value.includes("Yes")) {
+        smokeAmountField.style.display = 'block';
+        smokeAmountField.setAttribute('required', '');
+      } else {
+        smokeAmountField.style.display = 'none';
+        smokeAmountField.removeAttribute('required');
+      }
+    });
+    
+    // Form submission handler
     document.getElementById('riskForm').addEventListener('submit', async function(event) {
       event.preventDefault();
       const formData = new FormData(event.target);
       const data = Object.fromEntries(formData.entries());
-
+      
+      // Show loading state
+      const submitBtn = document.querySelector('.submit-btn');
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      submitBtn.disabled = true;
+      
       try {
-       const response = await fetch('https://test-wellsure-back-ancbame0gwg5ccfu.uaenorth-01.azurewebsites.net/assess', {
+        const response = await fetch('https://test-wellsure-back-ancbame0gwg5ccfu.uaenorth-01.azurewebsites.net/assess', {
           method: 'POST',
           headers: {
-          'Content-Type': 'application/json'
-           },
-           body: JSON.stringify(data)
-          });
-
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+        
         const result = await response.json();
-        document.getElementById('resultBox').style.display = 'block';
-        document.getElementById('riskResult').textContent = `Your risk level is: ${result.riskCategory}\nRecommendations: ${result.recommendations}`;
+        displayResults(result);
       } catch (error) {
         console.error('Submission failed:', error);
-        document.getElementById('resultBox').style.display = 'block';
-        document.getElementById('riskResult').textContent = 'Something went wrong. Please try again later.';
+        document.getElementById('resultContainer').style.display = 'block';
+        document.getElementById('riskLevel').className = 'risk-level';
+        document.getElementById('riskLevel').innerHTML = 'Error: Unable to process your assessment. Please try again later.';
+      } finally {
+        submitBtn.innerHTML = 'Submit Assessment <i class="fas fa-arrow-right"></i>';
+        submitBtn.disabled = false;
       }
+    });
+    
+    // Display results function
+    function displayResults(result) {
+      const resultContainer = document.getElementById('resultContainer');
+      const riskLevelElement = document.getElementById('riskLevel');
+      const recommendationsList = document.getElementById('recommendationsList');
+      
+      // Show result container
+      resultContainer.style.display = 'block';
+      
+      // Set risk level
+      riskLevelElement.textContent = `Your Risk Level: ${result.riskCategory}`;
+      
+      // Apply appropriate class based on risk level
+      if (result.riskCategory.toLowerCase().includes('low')) {
+        riskLevelElement.className = 'risk-level risk-low';
+      } else if (result.riskCategory.toLowerCase().includes('moderate')) {
+        riskLevelElement.className = 'risk-level risk-moderate';
+      } else {
+        riskLevelElement.className = 'risk-level risk-high';
+      }
+      
+      // Update dashboard scores (mock values - replace with actual from backend if available)
+      document.getElementById('physicalScore').textContent = result.physicalScore || '75';
+      document.getElementById('mentalScore').textContent = result.mentalScore || '60';
+      document.getElementById('lifestyleScore').textContent = result.lifestyleScore || '80';
+      
+      // Update progress bars
+      document.querySelector('#physicalBar div').style.width = (result.physicalScore || 75) + '%';
+      document.querySelector('#mentalBar div').style.width = (result.mentalScore || 60) + '%';
+      document.querySelector('#lifestyleBar div').style.width = (result.lifestyleScore || 80) + '%';
+      
+      // Format recommendations
+      if (result.recommendations) {
+        const recommendations = Array.isArray(result.recommendations) 
+          ? result.recommendations 
+          : result.recommendations.split('\n');
+        
+        recommendationsList.innerHTML = '<ul>' + 
+          recommendations.map(rec => `<li>${rec}</li>`).join('') + 
+          '</ul>';
+      } else {
+        recommendationsList.innerHTML = '<p>No specific recommendations available.</p>';
+      }
+    }
+    
+    // PDF button handler (mock implementation)
+    document.getElementById('pdfBtn').addEventListener('click', function() {
+      alert('PDF generation would be implemented here. This would connect to a backend service or use a library like jsPDF.');
+      // In a real implementation, this would:
+      // 1. Gather all form data and results
+      // 2. Send to a backend endpoint that generates PDF
+      // 3. Or use a client-side library like jsPDF to generate PDF
     });
   </script>
 </body>
