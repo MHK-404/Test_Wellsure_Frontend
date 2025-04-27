@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellsure - Questionnaire</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Health Questionnaire</h1>
+        <form id="healthForm">
+            <!-- Physical Health Questions -->
+            <h2>Physical Health</h2>
+            <label for="weight">What is your weight (kg)?</label>
+            <input type="number" id="weight" name="weight" required>
+
+            <label for="height">What is your height (cm)?</label>
+            <input type="number" id="height" name="height" required>
+
+            <label for="exercise">How often do you exercise per week?</label>
+            <input type="number" id="exercise" name="exercise" required>
+
+            <label for="diet">How would you rate your diet on a scale of 1-10?</label>
+            <input type="number" id="diet" name="diet" required>
+
+            <label for="hydration">How much water do you drink daily (in liters)?</label>
+            <input type="number" id="hydration" name="hydration" required>
+
+            <label for="smoking">Do you smoke?</label>
+            <select id="smoking" name="smoking" required>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+
+            <label for="sleep">How many hours of sleep do you get per night?</label>
+            <input type="number" id="sleep" name="sleep" required>
+
+            <label for="stress">How would you rate your stress level in the past week? (1-10)</label>
+            <input type="number" id="stress" name="stress" required>
+
+            <!-- Mental Health Questions -->
+            <h2>Mental Health</h2>
+            <label for="mood">How often do you feel sad or down?</label>
+            <input type="number" id="mood" name="mood" required>
+
+            <label for="anxiety">How often do you feel anxious?</label>
+            <input type="number" id="anxiety" name="anxiety" required>
+
+            <label for="anger">How often do you feel angry?</label>
+            <input type="number" id="anger" name="anger" required>
+
+            <label for="social">How often do you engage in social activities?</label>
+            <input type="number" id="social" name="social" required>
+
+            <label for="workload">How stressful is your workload?</label>
+            <input type="number" id="workload" name="workload" required>
+
+            <label for="sleepMental">How would you rate your sleep quality for mental well-being?</label>
+            <input type="number" id="sleepMental" name="sleepMental" required>
+
+            <label for="support">Do you have a support system (friends, family)?</label>
+            <select id="support" name="support" required>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+
+            <!-- Text-based Questions -->
+            <h2>Text-based Questions</h2>
+            <label for="feelings">How have you been feeling emotionally in the past 7 days?</label>
+            <textarea id="feelings" name="feelings" rows="4" required></textarea>
+
+            <label for="environment">Describe the environment you live in:</label>
+            <textarea id="environment" name="environment" rows="4" required></textarea>
+
+            <button type="submit" class="button">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
