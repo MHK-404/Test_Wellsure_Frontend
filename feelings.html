@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellSure - Feelings Assessment</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="feelings-container">
+        <div class="progress-steps">
+            <div class="step completed">1. Questions</div>
+            <div class="step active">2. Feelings</div>
+            <div class="step">3. Environment</div>
+            <div class="step">4. Results</div>
+            <div class="step">5. Simulation</div>
+        </div>
+        
+        <div class="feelings-card">
+            <h2>How Are You Feeling?</h2>
+            <p>Write openly about your emotions, energy levels, and general state of mind:</p>
+            
+            <textarea id="feelings-text" rows="8" placeholder="Example: I've been feeling stressed at work but happy when spending time with friends..."></textarea>
+            
+            <button id="analyze-feelings" class="analyze-btn">Analyze My Feelings</button>
+            
+            <div id="feelings-result" class="hidden">
+                <h3>Analysis Results</h3>
+                <div id="sentiment-display"></div>
+                <div id="keywords-display"></div>
+                <div id="feelings-recommendation"></div>
+            </div>
+            
+            <button id="next-to-environment" class="next-btn" disabled>Continue to Environment</button>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="feelings.js"></script>
+</body>
+</html>
