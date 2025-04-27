@@ -4,42 +4,151 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WellSure - Health Assessment</title>
-    <link href="style.css" rel="stylesheet">
+    <style>
+        /* Improved styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+            color: #333;
+        }
+        
+        .assessment-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            padding: 8px 15px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .step.active {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .question-section {
+            display: none;
+        }
+        
+        .question-section.active {
+            display: block;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question p {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .scale-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .scale-option {
+            flex: 1;
+            padding: 10px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .scale-option.selected {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .next-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <div class="assessment-container">
         <div class="progress-steps">
-            <div class="step active">1. Assessment</div>
-            <div class="step">2. Feelings</div>
-            <div class="step">3. Results</div>
+            <div class="step active">1. Physical</div>
+            <div class="step">2. Mental</div>
+            <div class="step">3. Complete</div>
         </div>
 
-        <!-- PHYSICAL HEALTH SECTION (MUST have this ID) -->
+        <!-- PHYSICAL HEALTH SECTION -->
         <div id="physical-health" class="question-section active">
-            <h2>Physical Health</h2>
+            <h2>Physical Health Assessment</h2>
             
-            <!-- Example Question -->
             <div class="question">
-                <p>How often do you exercise per week?</p>
-                <select class="answer">
+                <p>1. How often do you exercise per week?</p>
+                <select name="exercise">
                     <option value="0">Never</option>
                     <option value="1">1-2 times</option>
                     <option value="2">3-4 times</option>
                     <option value="3">5+ times</option>
                 </select>
             </div>
-
-            <!-- Add more questions here -->
-            <button class="next-btn" onclick="switchSection('mental-health')">Next</button>
+            
+            <div class="question">
+                <p>2. How would you describe your diet?</p>
+                <select name="diet">
+                    <option value="0">Unhealthy</option>
+                    <option value="1">Average</option>
+                    <option value="2">Healthy</option>
+                </select>
+            </div>
+            
+            <div class="question">
+                <p>3. How many hours of sleep do you get on average?</p>
+                <input type="number" name="sleep" min="0" max="24" value="7">
+            </div>
+            
+            <button class="next-btn" data-target="mental-health">Continue to Mental Health</button>
         </div>
 
-        <!-- MENTAL HEALTH SECTION (MUST have this ID) -->
+        <!-- MENTAL HEALTH SECTION -->
         <div id="mental-health" class="question-section">
-            <h2>Mental Health</h2>
+            <h2>Mental Health Assessment</h2>
             
-            <!-- Example Question -->
             <div class="question" data-question="stress">
-                <p>How would you rate your stress levels?</p>
+                <p>1. How would you rate your stress levels?</p>
                 <div class="scale-options">
                     <button class="scale-option" value="0">None</button>
                     <button class="scale-option" value="1">Mild</button>
@@ -47,11 +156,21 @@
                     <button class="scale-option" value="3">Severe</button>
                 </div>
             </div>
-
-            <button class="next-btn" onclick="saveAssessment()">Continue</button>
+            
+            <div class="question" data-question="mood">
+                <p>2. How would you describe your overall mood?</p>
+                <div class="scale-options">
+                    <button class="scale-option" value="0">Excellent</button>
+                    <button class="scale-option" value="1">Good</button>
+                    <button class="scale-option" value="2">Fair</button>
+                    <button class="scale-option" value="3">Poor</button>
+                </div>
+            </div>
+            
+            <button class="next-btn" id="complete-assessment">Complete Assessment</button>
         </div>
     </div>
 
-    <script src="assessment.js"></script> <!-- Load at BOTTOM of body -->
+    <script src="assessment.js"></script>
 </body>
 </html>
