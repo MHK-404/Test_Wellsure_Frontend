@@ -3,12 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WellSure - Assessment</title>
-    <link href="style.css" rel="stylesheet"> <!-- Updated path -->
+    <title>WellSure - Health Assessment</title>
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Content remains the same as before -->
-    <script src="main.js"></script> <!-- Updated path -->
-    <script src="assessment.js"></script> <!-- Updated path -->
+    <div class="assessment-container">
+        <div class="progress-steps">
+            <div class="step active">1. Assessment</div>
+            <div class="step">2. Feelings</div>
+            <div class="step">3. Results</div>
+        </div>
+
+        <!-- PHYSICAL HEALTH SECTION (MUST have this ID) -->
+        <div id="physical-health" class="question-section active">
+            <h2>Physical Health</h2>
+            
+            <!-- Example Question -->
+            <div class="question">
+                <p>How often do you exercise per week?</p>
+                <select class="answer">
+                    <option value="0">Never</option>
+                    <option value="1">1-2 times</option>
+                    <option value="2">3-4 times</option>
+                    <option value="3">5+ times</option>
+                </select>
+            </div>
+
+            <!-- Add more questions here -->
+            <button class="next-btn" onclick="switchSection('mental-health')">Next</button>
+        </div>
+
+        <!-- MENTAL HEALTH SECTION (MUST have this ID) -->
+        <div id="mental-health" class="question-section">
+            <h2>Mental Health</h2>
+            
+            <!-- Example Question -->
+            <div class="question" data-question="stress">
+                <p>How would you rate your stress levels?</p>
+                <div class="scale-options">
+                    <button class="scale-option" value="0">None</button>
+                    <button class="scale-option" value="1">Mild</button>
+                    <button class="scale-option" value="2">Moderate</button>
+                    <button class="scale-option" value="3">Severe</button>
+                </div>
+            </div>
+
+            <button class="next-btn" onclick="saveAssessment()">Continue</button>
+        </div>
+    </div>
+
+    <script src="assessment.js"></script> <!-- Load at BOTTOM of body -->
 </body>
 </html>
