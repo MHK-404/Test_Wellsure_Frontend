@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellSure - Environment Assessment</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="environment-container">
+        <div class="progress-steps">
+            <div class="step completed">1. Questions</div>
+            <div class="step completed">2. Feelings</div>
+            <div class="step active">3. Environment</div>
+            <div class="step">4. Results</div>
+            <div class="step">5. Simulation</div>
+        </div>
+        
+        <div class="environment-card">
+            <h2>Your Living & Work Environment</h2>
+            <p>Describe your surroundings (home, workplace, neighborhood):</p>
+            
+            <textarea id="environment-text" rows="8" placeholder="Example: My apartment is quiet but has little natural light. My office is noisy and crowded..."></textarea>
+            
+            <button id="analyze-environment" class="analyze-btn">Analyze My Environment</button>
+            
+            <div id="environment-result" class="hidden">
+                <h3>Analysis Results</h3>
+                <div id="factors-display"></div>
+                <div id="environment-recommendation"></div>
+            </div>
+            
+            <button id="next-to-results" class="next-btn" disabled>See My Results</button>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="environment.js"></script>
+</body>
+</html>
