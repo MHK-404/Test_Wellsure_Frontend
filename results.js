@@ -1,71 +1,44 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const data = getAssessmentData();
-    const riskCategory = getRiskCategory(data.totalScore);
-    
-    // Display scores
-    document.getElementById('total-score').textContent = data.totalScore;
-    document.getElementById('physical-score').textContent = `${data.physicalScore}/500`;
-    document.getElementById('mental-score').textContent = `${data.mentalScore}/500`;
-    
+    // Safely retrieve data
+    const storedData = sessionStorage.getItem('wellsureAssessment');
+    if (!storedData) {
+        window.location.href = 'assessment.html'; // Redirect if no data
+        return;
+    }
+
+    const data = JSON.parse(storedData);
+    if (!data.totalScore) {
+        console.error('Invalid score data');
+        return;
+    }
+
+    // Display scores (with fallbacks)
+    document.getElementById('total-score').textContent = data.totalScore || 0;
+    document.getElementById('physical-score').textContent = `${data.physicalScore || 0}/500`;
+    document.getElementById('mental-score').textContent = `${data.mentalScore || 0}/500`;
+
     // Animate score bar
     const scoreFill = document.getElementById('score-fill');
-    setTimeout(() => {
-        scoreFill.style.width = `${(data.totalScore / 1000) * 100}%`;
-        scoreFill.style.backgroundColor = `var(--${riskCategory.color})`;
-    }, 500);
-    
-    // Display risk category
-    const riskElement = document.getElementById('risk-category');
-    riskElement.textContent = riskCategory.name;
-    riskElement.classList.add(`risk-${riskCategory.color.replace('-', '')}`);
-    
-    // Generate recommendations
-    generateRecommendations(data);
-    
-    // Display AI analyses if available
-    if (data.feelingsAnalysis) {
-        document.getElementById('feelings-recommendation').innerHTML = 
-            `<p>${data.feelingsAnalysis.recommendations}</p>`;
+    if (scoreFill) {
+        setTimeout(() => {
+            scoreFill.style.width = `${(data.totalScore / 1000) * 100}%`;
+        }, 500);
     }
-    
-    if (data.environmentAnalysis) {
-        document.getElementById('environment-recommendation').innerHTML = 
-            `<p>${data.environmentAnalysis.recommendation}</p>`;
-    }
-    
-    // PDF generation button
-    document.querySelector('.download-btn').addEventListener('click', generatePDF);
-    
-    function generateRecommendations(data) {
-        const physicalRecs = [];
-        const mentalRecs = [];
-        
-        // Physical recommendations
-        if (data.physicalScore < 250) {
-            physicalRecs.push("Consider increasing your exercise to 3+ times per week");
-            physicalRecs.push("Aim for 7-8 hours of sleep nightly");
+
+    // PDF Generation (with error handling)
+    document.querySelector('.download-btn')?.addEventListener('click', async function() {
+        try {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            doc.text('WellSure Report', 105, 20, { align: 'center' });
+            doc.text(`Score: ${data.totalScore}/1000`, 20, 40);
+            
+            // Save PDF
+            doc.save('wellsure-report.pdf');
+        } catch (error) {
+            console.error('PDF generation failed:', error);
+            alert('Failed to generate PDF. Please try again.');
         }
-        
-        // Mental recommendations
-        if (data.mentalScore < 250) {
-            mentalRecs.push("Practice mindfulness or meditation daily");
-            mentalRecs.push("Consider talking to a counselor about stress management");
-        }
-        
-        // Add to DOM
-        const physicalRecElement = document.getElementById('physical-recommendations');
-        const mentalRecElement = document.getElementById('mental-recommendations');
-        
-        physicalRecs.forEach(rec => {
-            physicalRecElement.innerHTML += `<li>${rec}</li>`;
-        });
-        
-        mentalRecs.forEach(rec => {
-            mentalRecElement.innerHTML += `<li>${rec}</li>`;
-        });
-        
-        // Save recommendations
-        data.recommendations = [...physicalRecs, ...mentalRecs];
-        saveAssessmentData(data);
-    }
+    });
 });
