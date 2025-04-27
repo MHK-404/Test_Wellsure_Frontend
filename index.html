@@ -3,132 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WellSure Risk Assessment</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="index.js" defer></script>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .hidden { display: none; }
-        button { margin-top: 15px; padding: 10px 20px; border: none; background-color: #4CAF50; color: white; border-radius: 8px; cursor: pointer; }
-        button:hover { background-color: #45a049; }
-        .risk-bar { height: 20px; width: 100%; background-color: lightgray; margin: 20px 0; border-radius: 10px; overflow: hidden; }
-        .risk-fill { height: 100%; background-color: green; width: 0%; border-radius: 10px; transition: width 1s; }
-    </style>
+    <title>WellSure - Health Risk Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet"> <!-- Updated path -->
 </head>
 <body>
-
-<div id="start" class="container">
-    <h2>Welcome to WellSure</h2>
-    <p>Take our quick health survey to assess your insurance risk level.</p>
-    <button onclick="nextSection('physical')">Start Assessment</button>
-</div>
-
-<div id="physical" class="container hidden">
-    <h2>Physical Health</h2>
-    <label>Exercise per week: <input type="number" id="exercise"></label><br><br>
-    <label>Sleep hours per night: <input type="number" id="sleep"></label><br><br>
-    <label>Water cups daily: <input type="number" id="water"></label><br><br>
-    <label>Weight (kg): <input type="number" id="weight"></label><br><br>
-    <label>Height (cm): <input type="number" id="height"></label><br><br>
-    <label>Diet quality:
-        <select id="diet">
-            <option value="good">Good</option>
-            <option value="poor">Poor</option>
-        </select>
-    </label><br><br>
-    <label>Chronic conditions:
-        <select id="chronic">
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-        </select>
-    </label><br><br>
-    <label>Annual checkups:
-        <select id="checkups">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-        </select>
-    </label><br><br>
-    <label>Energy level:
-        <select id="energy">
-            <option value="high">High</option>
-            <option value="low">Low</option>
-        </select>
-    </label><br><br>
-    <label>Smoke:
-        <select id="smoke">
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-        </select>
-    </label><br><br>
-    <label>Posture:
-        <select id="posture">
-            <option value="good">Good</option>
-            <option value="poor">Poor</option>
-        </select>
-    </label><br><br>
-    <button onclick="nextSection('mental')">Next: Mental Health</button>
-</div>
-
-<div id="mental" class="container hidden">
-    <h2>Mental Health</h2>
-    <label>Stress frequency:
-        <select id="stress">
-            <option value="rarely">Rarely</option>
-            <option value="often">Often</option>
-        </select>
-    </label><br><br>
-    <label>Mood state:
-        <select id="mood">
-            <option value="positive">Positive</option>
-            <option value="negative">Negative</option>
-        </select>
-    </label><br><br>
-    <label>Support network:
-        <select id="support">
-            <option value="strong">Strong</option>
-            <option value="weak">Weak</option>
-        </select>
-    </label><br><br>
-    <label>Focus level:
-        <select id="focus">
-            <option value="good">Good</option>
-            <option value="poor">Poor</option>
-        </select>
-    </label><br><br>
-    <label>Feel lonely:
-        <select id="lonely">
-            <option value="rarely">Rarely</option>
-            <option value="often">Often</option>
-        </select>
-    </label><br><br>
-    <button onclick="nextSection('personal')">Next: Personal Input</button>
-</div>
-
-<div id="personal" class="container hidden">
-    <h2>Your Feelings and Environment</h2>
-    <label>Describe your feelings:
-        <textarea id="feelingsText" rows="3" cols="40"></textarea>
-    </label><br><br>
-    <label>Describe your living/work environment:
-        <textarea id="environmentText" rows="3" cols="40"></textarea>
-    </label><br><br>
-    <button onclick="calculateScore()">Submit Assessment</button>
-</div>
-
-<div id="results" class="container hidden">
-    <h2>Assessment Results</h2>
-    <div id="scoreSummary"></div>
-    <div class="risk-bar">
-        <div class="risk-fill" id="riskFill"></div>
+    <div class="welcome-container">
+        <div class="welcome-card">
+            <h1>WellSure</h1>
+            <p class="tagline">Your personalized health and wellness risk assessment platform</p>
+            
+            <div class="welcome-message">
+                <p>Through a few simple questions, we assess your physical and mental health, analyze your feelings and environment, and provide customized recommendations.</p>
+                <p>Discover your WellSure Score and simulate how lifestyle changes could impact your wellbeing!</p>
+            </div>
+            
+            <div class="welcome-features">
+                <div class="feature">
+                    <span>📊</span>
+                    <p>Comprehensive 1000-point scoring</p>
+                </div>
+                <div class="feature">
+                    <span>🧠</span>
+                    <p>AI-powered analysis</p>
+                </div>
+                <div class="feature">
+                    <span>📝</span>
+                    <p>Personalized recommendations</p>
+                </div>
+            </div>
+            
+            <a href="assessment.html" class="start-button">Start Your Assessment</a>
+        </div>
     </div>
-    <div id="physicalRec"></div>
-    <div id="mentalRec"></div>
-    <div id="feelingsAI"></div>
-    <div id="environmentAI"></div><br>
-    <button onclick="downloadPDF()">Download PDF Report</button>
-    <button onclick="simulateRisk()">Simulate Changes</button>
-</div>
-
+    <script src="main.js"></script> <!-- Updated path -->
 </body>
 </html>
