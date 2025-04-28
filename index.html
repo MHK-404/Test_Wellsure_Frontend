@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Insurance Risk Assessment</title>
+  <title>Wellsure - Insurance Risk Assessment</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -35,11 +35,25 @@
       line-height: 1.6;
     }
     
-    h1 {
+    .header {
       text-align: center;
       margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    }
+    
+    .header h1 {
       color: var(--primary);
       font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .header p {
+      color: var(--dark);
+      max-width: 800px;
+      margin: 0 auto;
     }
     
     form {
@@ -219,10 +233,16 @@
       text-align: center;
     }
     
-    .risk-low {
+    .risk-very-low {
       background-color: rgba(76, 175, 80, 0.2);
       color: var(--success);
       border-left: 5px solid var(--success);
+    }
+    
+    .risk-low {
+      background-color: rgba(139, 195, 74, 0.2);
+      color: #8bc34a;
+      border-left: 5px solid #8bc34a;
     }
     
     .risk-moderate {
@@ -235,6 +255,12 @@
       background-color: rgba(244, 67, 54, 0.2);
       color: var(--danger);
       border-left: 5px solid var(--danger);
+    }
+    
+    .risk-very-high {
+      background-color: rgba(183, 28, 28, 0.2);
+      color: #b71c1c;
+      border-left: 5px solid #b71c1c;
     }
     
     .recommendations {
@@ -317,6 +343,28 @@
       animation: fadeIn 0.5s ease;
     }
     
+    .insurance-calculator {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--light);
+      border-radius: 12px;
+      border-left: 5px solid var(--primary);
+    }
+    
+    .insurance-calculator h3 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    
+    .calculator-result {
+      font-weight: bold;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      display: none;
+    }
+    
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -343,7 +391,10 @@
   </style>
 </head>
 <body>
-  <h1><i class="fas fa-shield-alt"></i> Insurance Risk Assessment</h1>
+  <div class="header">
+    <h1><i class="fas fa-shield-alt"></i> Welcome to Wellsure</h1>
+    <p>Wellsure is your personalized insurance risk assessment platform. Complete this comprehensive health evaluation to understand your risk profile and get tailored recommendations to improve your health and potentially lower your insurance costs.</p>
+  </div>
   <form id="riskForm">
     <fieldset class="personal-info">
       <legend>Personal Information</legend>
@@ -686,17 +737,31 @@
         </div>
         
         <div class="dashboard-item">
-          <h3>Lifestyle Score</h3>
-          <div class="dashboard-value" id="lifestyleScore">--</div>
-          <div id="lifestyleBar" style="height: 10px; background: #eee; border-radius: 5px; margin-top: 0.5rem;">
-            <div style="height: 100%; width: 0%; background: var(--lifestyle); border-radius: 5px;"></div>
+          <h3>Overall Risk Score</h3>
+          <div class="dashboard-value" id="riskScoreValue">--</div>
+          <div id="riskBar" style="height: 10px; background: #eee; border-radius: 5px; margin-top: 0.5rem;">
+            <div style="height: 100%; width: 0%; background: var(--primary); border-radius: 5px;"></div>
           </div>
         </div>
       </div>
       
       <div class="recommendations">
-        <h3><i class="fas fa-lightbulb"></i> Recommendations</h3>
+        <h3><i class="fas fa-lightbulb"></i> Personalized Recommendations</h3>
         <div id="recommendationsList">
+          <!-- Will be filled by JavaScript -->
+        </div>
+      </div>
+      
+      <div class="insurance-calculator">
+        <h3><i class="fas fa-calculator"></i> Insurance Cost Estimator</h3>
+        <div class="form-group">
+          <label>Enter your annual income (USD):</label>
+          <input type="number" id="annualIncome" min="10000" step="1000" placeholder="e.g. 50000">
+        </div>
+        <button class="action-btn" id="calculateBtn" style="background: var(--primary); color: white;">
+          <i class="fas fa-calculator"></i> Estimate Insurance Costs
+        </button>
+        <div class="calculator-result" id="calculatorResult">
           <!-- Will be filled by JavaScript -->
         </div>
       </div>
@@ -768,23 +833,27 @@
       riskLevelElement.textContent = `Your Risk Level: ${result.riskCategory}`;
       
       // Apply appropriate class based on risk level
-      if (result.riskCategory.toLowerCase().includes('low')) {
+      if (result.riskCategory.toLowerCase().includes('very low')) {
+        riskLevelElement.className = 'risk-level risk-very-low';
+      } else if (result.riskCategory.toLowerCase().includes('low')) {
         riskLevelElement.className = 'risk-level risk-low';
       } else if (result.riskCategory.toLowerCase().includes('moderate')) {
         riskLevelElement.className = 'risk-level risk-moderate';
-      } else {
+      } else if (result.riskCategory.toLowerCase().includes('high')) {
         riskLevelElement.className = 'risk-level risk-high';
+      } else {
+        riskLevelElement.className = 'risk-level risk-very-high';
       }
       
-      // Update dashboard scores (mock values - replace with actual from backend if available)
-      document.getElementById('physicalScore').textContent = result.physicalScore || '75';
-      document.getElementById('mentalScore').textContent = result.mentalScore || '60';
-      document.getElementById('lifestyleScore').textContent = result.lifestyleScore || '80';
+      // Update dashboard scores
+      document.getElementById('physicalScore').textContent = result.physicalScore || '750';
+      document.getElementById('mentalScore').textContent = result.mentalScore || '750';
+      document.getElementById('riskScoreValue').textContent = result.riskScore || '500';
       
-      // Update progress bars
-      document.querySelector('#physicalBar div').style.width = (result.physicalScore || 75) + '%';
-      document.querySelector('#mentalBar div').style.width = (result.mentalScore || 60) + '%';
-      document.querySelector('#lifestyleBar div').style.width = (result.lifestyleScore || 80) + '%';
+      // Update progress bars (scaled to 1000)
+      document.querySelector('#physicalBar div').style.width = ((result.physicalScore || 750)/10) + '%';
+      document.querySelector('#mentalBar div').style.width = ((result.mentalScore || 750)/10) + '%';
+      document.querySelector('#riskBar div').style.width = ((result.riskScore || 500)/10) + '%';
       
       // Format recommendations
       if (result.recommendations) {
@@ -798,77 +867,93 @@
       } else {
         recommendationsList.innerHTML = '<p>No specific recommendations available.</p>';
       }
+      
+      // Scroll to results
+      resultContainer.scrollIntoView({ behavior: 'smooth' });
     }
     
-    // PDF button handler (mock implementation)
- // PDF button handler - full implementation
-document.getElementById('pdfBtn').addEventListener('click', function() {
-    // Create a new PDF document
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
-    // Set document properties
-    doc.setProperties({
-        title: 'Health Risk Assessment Report',
-        subject: 'Your personalized health assessment results',
-        author: 'Insurance Risk Assessment Tool'
+    // Insurance cost calculator
+    document.getElementById('calculateBtn').addEventListener('click', function() {
+      const income = parseFloat(document.getElementById('annualIncome').value);
+      const riskScore = parseFloat(document.getElementById('riskScoreValue').textContent) || 500;
+      
+      if (isNaN(income) {
+        alert('Please enter a valid annual income');
+        return;
+      }
+      
+      // Calculate insurance cost (simplified formula)
+      const baseCost = income * 0.05; // 5% of income as base
+      const riskFactor = 1 + (riskScore / 1000); // Higher risk = higher cost
+      const estimatedCost = baseCost * riskFactor;
+      
+      const resultElement = document.getElementById('calculatorResult');
+      resultElement.style.display = 'block';
+      resultElement.innerHTML = `
+        <p>Based on your risk profile and income:</p>
+        <p style="font-size: 1.2rem;">Estimated annual health insurance cost: <strong>$${estimatedCost.toFixed(2)}</strong></p>
+        <p style="font-size: 0.9rem; color: #666;">This is an estimate only. Actual costs may vary based on additional factors.</p>
+      `;
     });
     
-    // Add title
-    doc.setFontSize(20);
-    doc.setTextColor(40);
-    doc.text('Health Risk Assessment Report', 105, 20, { align: 'center' });
-    
-    // Add date
-    doc.setFontSize(12);
-    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
-    
-    // Add risk level
-    const riskLevel = document.getElementById('riskLevel').textContent;
-    const riskClass = document.getElementById('riskLevel').className.includes('risk-high') ? 'High' : 
-                     document.getElementById('riskLevel').className.includes('risk-moderate') ? 'Moderate' : 'Low';
-    
-    doc.setFontSize(16);
-    doc.text(riskLevel, 14, 45);
-    
-    // Add risk score visualization
-    doc.setFillColor(220, 220, 220);
-    doc.rect(14, 55, 180, 10, 'F');
-    
-    const riskScore = parseFloat(document.getElementById('physicalScore').textContent) || 0;
-    const riskWidth = (riskScore / 100) * 180;
-    
-    if (riskClass === 'High') doc.setFillColor(244, 67, 54);
-    else if (riskClass === 'Moderate') doc.setFillColor(255, 152, 0);
-    else doc.setFillColor(76, 175, 80);
-    
-    doc.rect(14, 55, riskWidth, 10, 'F');
-    doc.setFontSize(10);
-    doc.text(`${riskScore}% Risk Score`, 90, 62);
-    
-    // Add recommendations
-    doc.setFontSize(14);
-    doc.text('Recommendations:', 14, 80);
-    
-    const recommendations = [];
-    const recommendationItems = document.querySelectorAll('#recommendationsList li');
-    recommendationItems.forEach(item => recommendations.push(item.textContent));
-    
-    doc.setFontSize(12);
-    let yPosition = 90;
-    recommendations.forEach(rec => {
-        const lines = doc.splitTextToSize(rec, 180);
-        doc.text(lines, 14, yPosition);
-        yPosition += lines.length * 7 + 5;
+    // PDF button handler
+    document.getElementById('pdfBtn').addEventListener('click', function() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      // Set document properties
+      doc.setProperties({
+          title: 'Wellsure Risk Assessment Report',
+          subject: 'Your personalized health assessment results',
+          author: 'Wellsure'
+      });
+      
+      // Add title
+      doc.setFontSize(20);
+      doc.setTextColor(40);
+      doc.text('Wellsure Risk Assessment Report', 105, 20, { align: 'center' });
+      
+      // Add date
+      doc.setFontSize(12);
+      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
+      
+      // Add risk level
+      const riskLevel = document.getElementById('riskLevel').textContent;
+      doc.setFontSize(16);
+      doc.text(riskLevel, 14, 45);
+      
+      // Add scores
+      doc.setFontSize(14);
+      doc.text('Assessment Scores:', 14, 65);
+      
+      doc.setFontSize(12);
+      doc.text(`Physical Health: ${document.getElementById('physicalScore').textContent}/1000`, 14, 75);
+      doc.text(`Mental Health: ${document.getElementById('mentalScore').textContent}/1000`, 14, 85);
+      doc.text(`Overall Risk Score: ${document.getElementById('riskScoreValue').textContent}/1000`, 14, 95);
+      
+      // Add recommendations
+      doc.setFontSize(14);
+      doc.text('Personalized Recommendations:', 14, 115);
+      
+      const recommendations = [];
+      const recommendationItems = document.querySelectorAll('#recommendationsList li');
+      recommendationItems.forEach(item => recommendations.push(item.textContent));
+      
+      doc.setFontSize(12);
+      let yPosition = 125;
+      recommendations.forEach(rec => {
+          const lines = doc.splitTextToSize(rec, 180);
+          doc.text(lines, 14, yPosition);
+          yPosition += lines.length * 7 + 5;
+      });
+      
+      // Add page border
+      doc.setDrawColor(200);
+      doc.rect(5, 5, 200, 287, 'S');
+      
+      // Save the PDF
+      doc.save('Wellsure_Assessment_Report.pdf');
     });
-    
-    // Add page border
-    doc.setDrawColor(200);
-    doc.rect(5, 5, 200, 287, 'S');
-    
-    // Save the PDF
-    doc.save('Health_Risk_Assessment.pdf');
-});
   </script>
 </body>
 </html>
