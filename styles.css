@@ -1,120 +1,71 @@
-/* Global Styles */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #e0f7fa, #ffffff);
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
 }
 
-/* Container */
 .container {
-  background: white;
-  padding: 30px 40px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  width: 90%;
-}
-
-/* Headers */
-h1, h2, h3 {
-  text-align: center;
-  color: #00796b;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-  margin-bottom: 10px;
+    text-align: center;
+    color: #333;
 }
 
-h2, h3 {
-  margin-top: 20px;
+h2 {
+    color: #555;
 }
 
-/* Form */
-form label {
-  font-weight: bold;
-  display: block;
-  margin-top: 15px;
-  color: #555;
+label {
+    font-weight: bold;
 }
 
-form input, form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-sizing: border-box;
-  font-size: 14px;
+select, input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-/* Buttons */
 button {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  background: #00796b;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  margin-top: 20px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    cursor: pointer;
 }
 
 button:hover {
-  background: #004d40;
+    background-color: #218838;
 }
 
-/* Hidden class */
-.hidden {
-  display: none;
-}
-
-/* Loading Spinner */
-#loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 30px;
-}
-
-.loader {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #00796b;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Results Section */
 #results {
-  margin-top: 30px;
+    display: none;
 }
 
-#results p, #results ul {
-  margin-top: 10px;
-  font-size: 15px;
-  color: #333;
+ul {
+    list-style-type: none;
 }
 
-#recommendations li {
-  margin-bottom: 8px;
+ul li {
+    margin: 5px 0;
 }
 
+a.btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+a.btn:hover {
+    background-color: #0056b3;
+}
