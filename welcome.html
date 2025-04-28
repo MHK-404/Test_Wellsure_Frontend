@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Wellsure</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #333;
+    }
+    .welcome-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 50px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      animation: fadeIn 1.5s ease;
+    }
+    h1 {
+      font-size: 2.8em;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+    button {
+      padding: 12px 30px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #43a047;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="welcome-container">
+  <h1>Welcome to Wellsure</h1>
+  <p>
+Wellsure is your personal guide to understanding and improving your health risks.
+By analyzing your physical health, mental well-being, daily habits, and environment,
+we generate a custom health risk score along with science-backed, practical recommendations to enhance your lifestyle.
+
+Plus, our healthcare cost calculator estimates your potential out-of-pocket expenses after insurance, based on your annual income and risk score.
+  </p>
+  <p>
+    Let's take the first step toward a healthier, happier you!
+  </p>
+  <button onclick="startAssessment()">Start Assessment</button>
+</div>
+
+<script>
+function startAssessment() {
+  window.location.href = "index.html"; // Change to your form page name if needed
+}
+</script>
+
+</body>
+</html>
