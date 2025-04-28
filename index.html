@@ -720,160 +720,163 @@
       }
     });
     
-    // Form submission handler
-    document.getElementById('riskForm').addEventListener('submit', async function(event) {
-      event.preventDefault();
-      const formData = new FormData(event.target);
-      const data = Object.fromEntries(formData.entries());
-      
-      // Show loading state
-      const submitBtn = document.querySelector('.submit-btn');
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-      submitBtn.disabled = true;
-      
-      try {
-        const response = await fetch('https://test-wellsure-back-ancbame0gwg5ccfu.uaenorth-01.azurewebsites.net/assess', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
-        
-        const result = await response.json();
-        displayResults(result);
-      } catch (error) {
-        console.error('Submission failed:', error);
-        document.getElementById('resultContainer').style.display = 'block';
-        document.getElementById('riskLevel').className = 'risk-level';
-        document.getElementById('riskLevel').innerHTML = 'Error: Unable to process your assessment. Please try again later.';
-      } finally {
-        submitBtn.innerHTML = 'Submit Assessment <i class="fas fa-arrow-right"></i>';
-        submitBtn.disabled = false;
-      }
-    });
+  document.getElementById('riskForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
     
-    // Display results function
-    function displayResults(result) {
-      const resultContainer = document.getElementById('resultContainer');
-      const riskLevelElement = document.getElementById('riskLevel');
-      const recommendationsList = document.getElementById('recommendationsList');
-      
-      // Show result container
-      resultContainer.style.display = 'block';
-      
-      // Set risk level
-      riskLevelElement.textContent = `Your Risk Level: ${result.riskCategory}`;
-      
-      // Apply appropriate class based on risk level
-      if (result.riskCategory.toLowerCase().includes('very low')) {
-        riskLevelElement.className = 'risk-level risk-very-low';
-      } else if (result.riskCategory.toLowerCase().includes('low')) {
-        riskLevelElement.className = 'risk-level risk-low';
-      } else if (result.riskCategory.toLowerCase().includes('moderate')) {
-        riskLevelElement.className = 'risk-level risk-moderate';
-      } else if (result.riskCategory.toLowerCase().includes('high')) {
-        riskLevelElement.className = 'risk-level risk-high';
-      } else {
-        riskLevelElement.className = 'risk-level risk-very-high';
-      }
-      
-      // Update dashboard scores
-      document.getElementById('physicalScore').textContent = result.physicalScore || '750';
-      document.getElementById('mentalScore').textContent = result.mentalScore || '750';
-      document.getElementById('riskScoreValue').textContent = result.riskScore || '500';
-      
-      // Update progress bars (scaled to 1000)
-      document.querySelector('#physicalBar div').style.width = ((result.physicalScore || 750)/10) + '%';
-      document.querySelector('#mentalBar div').style.width = ((result.mentalScore || 750)/10) + '%';
-      document.querySelector('#riskBar div').style.width = ((result.riskScore || 500)/10) + '%';
-      
-      // Format recommendations
-      if (result.recommendations) {
-        const recommendations = Array.isArray(result.recommendations) 
-          ? result.recommendations 
-          : result.recommendations.split('\n');
-        
-        recommendationsList.innerHTML = '<ul>' + 
-          recommendations.map(rec => `<li>${rec}</li>`).join('') + 
-          '</ul>';
-      } else {
-        recommendationsList.innerHTML = '<p>No specific recommendations available.</p>';
-      }
-      
-      // Scroll to results
-      resultContainer.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Show loading state
+    const submitBtn = document.querySelector('.submit-btn');
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    submitBtn.disabled = true;
     
-    // Insurance cost calculator
-    document.getElementById('calculateBtn').addEventListener('click', function() {
-      const income = parseFloat(document.getElementById('annualIncome').value);
-      const riskScore = parseFloat(document.getElementById('riskScoreValue').textContent) || 500;
-      
-      if (isNaN(income)) {
-        alert('Please enter a valid annual income');
-        return;
-      }
-      
-      // Calculate insurance cost (simplified formula)
-      const baseCost = income * 0.05; // 5% of income as base
-      const riskFactor = 1 + (riskScore / 1000); // Higher risk = higher cost
-      const estimatedCost = baseCost * riskFactor;
-      
-      const resultElement = document.getElementById('calculatorResult');
-      resultElement.style.display = 'block';
-      resultElement.innerHTML = `
-        <p>Based on your risk profile and income:</p>
-        <p style="font-size: 1.2rem;">Estimated annual health insurance cost: <strong>${estimatedCost.toFixed(2)} AED</strong></p>
-        <p style="font-size: 0.9rem; color: #666;">This is an estimate only. Actual costs may vary based on additional factors.</p>
-      `;
-    });
-    
-    // PDF button handler
-    document.getElementById('pdfBtn').addEventListener('click', function() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      
-      // Set document properties
-      doc.setProperties({
-          title: 'Wellsure Risk Assessment Report',
-          subject: 'Your personalized health assessment results',
-          author: 'Wellsure'
+    try {
+      const response = await fetch('https://test-wellsure-back-ancbame0gwg5ccfu.uaenorth-01.azurewebsites.net/assess', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
       });
       
-      // Add title
-      doc.setFontSize(20);
-      doc.setTextColor(40);
-      doc.text('Wellsure Risk Assessment Report', 105, 20, { align: 'center' });
-      
-      // Add date
-      doc.setFontSize(12);
-      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
-      
-      // Add risk level
-      const riskLevel = document.getElementById('riskLevel').textContent;
-      doc.setFontSize(16);
-      doc.text(riskLevel, 14, 45);
-      
-      // Add scores
-      doc.setFontSize(14);
-      doc.text('Assessment Scores:', 14, 65);
-      
-      doc.setFontSize(12);
-      doc.text(`Physical Health: ${document.getElementById('physicalScore').textContent}/1000`, 14, 75);
-      doc.text(`Mental Health: ${document.getElementById('mentalScore').textContent}/1000`, 14, 85);
-      doc.text(`Overall Risk Score: ${document.getElementById('riskScoreValue').textContent}/1000`, 14, 95);
-      
-      
-     
-      
-      // Add page border
-      doc.setDrawColor(200);
-      doc.rect(5, 5, 200, 287, 'S');
-      
-      // Save the PDF
-      doc.save('Wellsure_Assessment_Report.pdf');
+      const result = await response.json();
+      displayResults(result);
+    } catch (error) {
+      console.error('Submission failed:', error);
+      document.getElementById('resultContainer').style.display = 'block';
+      document.getElementById('riskLevel').className = 'risk-level';
+      document.getElementById('riskLevel').innerHTML = 'Error: Unable to process your assessment. Please try again later.';
+    } finally {
+      submitBtn.innerHTML = 'Submit Assessment <i class="fas fa-arrow-right"></i>';
+      submitBtn.disabled = false;
+    }
+  });
+
+  // Display results function
+  function displayResults(result) {
+    const resultContainer = document.getElementById('resultContainer');
+    const riskLevelElement = document.getElementById('riskLevel');
+    const recommendationsList = document.getElementById('recommendationsList');
+    
+    // Show result container
+    resultContainer.style.display = 'block';
+    
+    // Set risk level
+    riskLevelElement.textContent = `Your Risk Level: ${result.riskCategory}`;
+    
+    // Apply appropriate class based on risk level
+    if (result.riskCategory.toLowerCase().includes('very low')) {
+      riskLevelElement.className = 'risk-level risk-very-low';
+    } else if (result.riskCategory.toLowerCase().includes('low')) {
+      riskLevelElement.className = 'risk-level risk-low';
+    } else if (result.riskCategory.toLowerCase().includes('moderate')) {
+      riskLevelElement.className = 'risk-level risk-moderate';
+    } else if (result.riskCategory.toLowerCase().includes('high')) {
+      riskLevelElement.className = 'risk-level risk-high';
+    } else {
+      riskLevelElement.className = 'risk-level risk-very-high';
+    }
+
+    // Update dashboard scores
+    document.getElementById('physicalScore').textContent = result.physicalScore || '750';
+    document.getElementById('mentalScore').textContent = result.mentalScore || '750';
+    document.getElementById('riskScoreValue').textContent = result.riskScore || '500';
+
+    // Update progress bars (scaled to 1000)
+    document.querySelector('#physicalBar div').style.width = ((result.physicalScore || 750) / 10) + '%';
+    document.querySelector('#mentalBar div').style.width = ((result.mentalScore || 750) / 10) + '%';
+    document.querySelector('#riskBar div').style.width = ((result.riskScore || 500) / 10) + '%';
+
+    // Format recommendations and apply sentiment analysis (basic sentiment classification)
+    if (result.recommendations) {
+      const recommendations = Array.isArray(result.recommendations) 
+        ? result.recommendations 
+        : result.recommendations.split('\n');
+
+      const analyzedRecommendations = recommendations.map(rec => {
+        // Simple sentiment analysis (can be expanded with external API like TextBlob or Sentiment.js)
+        let sentimentClass = 'neutral'; // Default to neutral
+        if (rec.includes('great') || rec.includes('positive')) sentimentClass = 'positive';
+        if (rec.includes('improve') || rec.includes('negative')) sentimentClass = 'negative';
+
+        return `<li class="recommendation ${sentimentClass}">${rec}</li>`;
+      });
+
+      recommendationsList.innerHTML = '<ul>' + analyzedRecommendations.join('') + '</ul>';
+    } else {
+      recommendationsList.innerHTML = '<p>No specific recommendations available.</p>';
+    }
+
+    // Scroll to results
+    resultContainer.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Insurance cost calculator
+  document.getElementById('calculateBtn').addEventListener('click', function() {
+    const income = parseFloat(document.getElementById('annualIncome').value);
+    const riskScore = parseFloat(document.getElementById('riskScoreValue').textContent) || 500;
+
+    if (isNaN(income)) {
+      alert('Please enter a valid annual income');
+      return;
+    }
+
+    // Calculate insurance cost (simplified formula)
+    const baseCost = income * 0.05; // 5% of income as base
+    const riskFactor = 1 + (riskScore / 1000); // Higher risk = higher cost
+    const estimatedCost = baseCost * riskFactor;
+
+    const resultElement = document.getElementById('calculatorResult');
+    resultElement.style.display = 'block';
+    resultElement.innerHTML = `
+      <p>Based on your risk profile and income:</p>
+      <p style="font-size: 1.2rem;">Estimated annual health insurance cost: <strong>${estimatedCost.toFixed(2)} AED</strong></p>
+      <p style="font-size: 0.9rem; color: #666;">This is an estimate only. Actual costs may vary based on additional factors.</p>
+    `;
+  });
+
+  // PDF button handler
+  document.getElementById('pdfBtn').addEventListener('click', function() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Set document properties
+    doc.setProperties({
+        title: 'Wellsure Risk Assessment Report',
+        subject: 'Your personalized health assessment results',
+        author: 'Wellsure'
     });
+
+    // Add title
+    doc.setFontSize(20);
+    doc.setTextColor(40);
+    doc.text('Wellsure Risk Assessment Report', 105, 20, { align: 'center' });
+
+    // Add date
+    doc.setFontSize(12);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
+
+    // Add risk level
+    const riskLevel = document.getElementById('riskLevel').textContent;
+    doc.setFontSize(16);
+    doc.text(riskLevel, 14, 45);
+
+    // Add scores
+    doc.setFontSize(14);
+    doc.text('Assessment Scores:', 14, 65);
+
+    doc.setFontSize(12);
+    doc.text(`Physical Health: ${document.getElementById('physicalScore').textContent}/1000`, 14, 75);
+    doc.text(`Mental Health: ${document.getElementById('mentalScore').textContent}/1000`, 14, 85);
+    doc.text(`Overall Risk Score: ${document.getElementById('riskScoreValue').textContent}/1000`, 14, 95);
+
+    // Add page border
+    doc.setDrawColor(200);
+    doc.rect(5, 5, 200, 287, 'S');
+
+    // Save the PDF
+    doc.save('Wellsure_Assessment_Report.pdf');
+  });
   </script>
 </body>
 </html>
