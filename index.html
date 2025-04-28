@@ -1,171 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Wellsure</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      width: 90%;
-      max-width: 600px;
-      margin: 30px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-    }
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    h1 {
-      color: #007BFF;
-    }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 15px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    .hidden {
-      display: none;
-    }
-    #results ul {
-      padding-left: 20px;
-    }
-    #results ul li {
-      margin-bottom: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellsure - Health Assessment</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <h1>Welcome to Wellsure</h1>
+        <p>Your personalized health risk assessment tool.</p>
+        <a href="#questionnaire" class="btn">Start Questionnaire</a>
 
-  <div class="container">
-    <header>
-      <h1>Welcome to Wellsure</h1>
-      <p>Your personalized health insurance risk assessment tool.</p>
-    </header>
+        <div id="questionnaire" class="questions-section">
+            <form id="healthForm">
+                <h2>Physical Health</h2>
 
-    <form id="assessmentForm">
-      <section>
-        <h2>Physical Health</h2>
+                <label for="exercise">How often do you exercise?</label>
+                <select id="exercise" name="exercise" required>
+                    <option value="A">Daily</option>
+                    <option value="B">3-4 times a week</option>
+                    <option value="C">Once a week</option>
+                    <option value="D">Never</option>
+                </select>
 
-        <label for="weight">Weight (kg):</label>
-        <input type="number" id="weight" name="weight" required>
+                <label for="chronic_conditions">Do you have any chronic health conditions?</label>
+                <select id="chronic_conditions" name="chronic_conditions" required>
+                    <option value="A">Yes, I have one or more chronic conditions (e.g., diabetes, heart disease)</option>
+                    <option value="B">No, I do not have any chronic conditions</option>
+                    <option value="C">I have had one in the past but no longer have it</option>
+                </select>
 
-        <label for="height">Height (m):</label>
-        <input type="number" id="height" name="height" step="0.01" required>
+                <label for="physical_health">How would you rate your overall physical health?</label>
+                <select id="physical_health" name="physical_health" required>
+                    <option value="A">Excellent</option>
+                    <option value="B">Good</option>
+                    <option value="C">Fair</option>
+                    <option value="D">Poor</option>
+                </select>
 
-        <label for="chronicDisorders">Chronic Disorders:</label>
-        <input type="text" id="chronicDisorders" name="chronicDisorders" required>
+                <label for="healthy_diet">Do you have a healthy diet?</label>
+                <select id="healthy_diet" name="healthy_diet" required>
+                    <option value="A">Yes, I eat balanced meals regularly</option>
+                    <option value="B">Sometimes, but not always</option>
+                    <option value="C">No, I often skip meals or eat unbalanced food</option>
+                </select>
 
-        <label for="physicalHealthScore">Physical Health Score (1-100):</label>
-        <input type="number" id="physicalHealthScore" name="physicalHealthScore" min="1" max="100" required>
-      </section>
+                <label for="doctor_checkup">How often do you visit a doctor for a check-up?</label>
+                <select id="doctor_checkup" name="doctor_checkup" required>
+                    <option value="A">Annually or more often</option>
+                    <option value="B">Every 2-3 years</option>
+                    <option value="C">Rarely, only when needed</option>
+                    <option value="D">Never</option>
+                </select>
 
-      <section>
-        <h2>Mental Health</h2>
+                <h2>Mental Health</h2>
 
-        <label for="mentalHealthScore">Mental Health Score (1-100):</label>
-        <input type="number" id="mentalHealthScore" name="mentalHealthScore" min="1" max="100" required>
+                <label for="stress">How often do you feel stressed or anxious?</label>
+                <select id="stress" name="stress" required>
+                    <option value="A">Rarely or never</option>
+                    <option value="B">Occasionally</option>
+                    <option value="C">Frequently</option>
+                    <option value="D">Almost always</option>
+                </select>
 
-        <label for="textQuestion1">How have you been feeling in the last 7 days?</label>
-        <textarea id="textQuestion1" name="textQuestion1" rows="3" required></textarea>
+                <label for="depression">Do you experience any symptoms of depression (e.g., sadness, loss of interest)?</label>
+                <select id="depression" name="depression" required>
+                    <option value="A">No, I feel mentally well</option>
+                    <option value="B">Occasionally, but it doesn't affect my daily life</option>
+                    <option value="C">Yes, it affects my daily life</option>
+                    <option value="D">Yes, I have been diagnosed with depression</option>
+                </select>
 
-        <label for="textQuestion2">Describe the environment you live in:</label>
-        <textarea id="textQuestion2" name="textQuestion2" rows="3" required></textarea>
-      </section>
+                <label for="stress_management">How well do you manage stress?</label>
+                <select id="stress_management" name="stress_management" required>
+                    <option value="A">Very well, I have good coping strategies</option>
+                    <option value="B">I manage stress somewhat well</option>
+                    <option value="C">I struggle to manage stress</option>
+                    <option value="D">I often feel overwhelmed by stress</option>
+                </select>
 
-      <button type="submit">Submit</button>
-    </form>
+                <label for="mental_health_support">Do you receive any mental health support (therapy, counseling)?</label>
+                <select id="mental_health_support" name="mental_health_support" required>
+                    <option value="A">Yes, regularly</option>
+                    <option value="B">Yes, occasionally</option>
+                    <option value="C">No, but I have in the past</option>
+                    <option value="D">No, I have never received support</option>
+                </select>
 
-    <section id="results" class="hidden">
-      <h2>Your Results</h2>
-      <p><strong>Risk Score:</strong> <span id="riskScore"></span></p>
-      <p><strong>BMI:</strong> <span id="bmi"></span></p>
+                <label for="sleep_disturbance">How often do you experience sleep disturbances (e.g., difficulty falling asleep, waking up frequently)?</label>
+                <select id="sleep_disturbance" name="sleep_disturbance" required>
+                    <option value="A">Rarely or never</option>
+                    <option value="B">Occasionally</option>
+                    <option value="C">Frequently</option>
+                    <option value="D">Almost always</option>
+                </select>
 
-      <h3>Recommendations from ChatGPT:</h3>
-      <ul id="recommendations"></ul>
+                <h2>Environment</h2>
 
-      <h3>AI Feedback:</h3>
-      <p id="textFeedback"></p>
-    </section>
-  </div>
+                <label for="safety">Do you live in a safe neighborhood?</label>
+                <select id="safety" name="safety" required>
+                    <option value="A">Yes, I feel very safe</option>
+                    <option value="B">Yes, but there are occasional safety concerns</option>
+                    <option value="C">No, I do not feel safe</option>
+                    <option value="D">I’m not sure</option>
+                </select>
 
-  <script>
-    const form = document.getElementById('assessmentForm');
-    const resultsSection = document.getElementById('results');
-    const riskScoreElement = document.getElementById('riskScore');
-    const bmiElement = document.getElementById('bmi');
-    const recommendationsElement = document.getElementById('recommendations');
-    const textFeedbackElement = document.getElementById('textFeedback');
+                <label for="air_quality">How would you rate the air quality in your environment?</label>
+                <select id="air_quality" name="air_quality" required>
+                    <option value="A">Very good, I have clean air</option>
+                    <option value="B">Good, but occasionally affected by pollution</option>
+                    <option value="C">Poor, the air quality is often bad</option>
+                    <option value="D">Very poor, I live in a highly polluted area</option>
+                </select>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+                <label for="living_space">Is your living space quiet and peaceful?</label>
+                <select id="living_space" name="living_space" required>
+                    <option value="A">Yes, it’s always quiet and peaceful</option>
+                    <option value="B">Mostly, but occasionally noisy</option>
+                    <option value="C">No, it’s frequently noisy</option>
+                    <option value="D">Very noisy, I cannot find peace</option>
+                </select>
 
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
+                <label for="green_spaces">Do you have access to green spaces (parks, nature)?</label>
+                <select id="green_spaces" name="green_spaces" required>
+                    <option value="A">Yes, I have easy access to parks or nature</option>
+                    <option value="B">Occasionally, but not very close</option>
+                    <option value="C">No, there are no nearby green spaces</option>
+                    <option value="D">I live in an urban area with little nature</option>
+                </select>
 
-      try {
-        const response = await fetch('https://test-wellsure-back-ancbame0gwg5ccfu.uaenorth-01.azurewebsites.net/submit', {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+                <label for="income_stability">Do you have a stable source of income and financial security?</label>
+                <select id="income_stability" name="income_stability" required>
+                    <option value="A">Yes, I have a stable income</option>
+                    <option value="B">Yes, but sometimes I experience financial uncertainty</option>
+                    <option value="C">No, I often worry about my finances</option>
+                    <option value="D">No, I have no stable source of income</option>
+                </select>
 
-        if (!response.ok) throw new Error('Network response was not ok.');
+                <h2>Personal Info</h2>
 
-        const result = await response.json();
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
 
-        // Update Results
-        riskScoreElement.textContent = result.riskScore;
-        bmiElement.textContent = result.bmi;
+                <label for="weight">Weight (kg):</label>
+                <input type="number" id="weight" name="weight" required>
 
-        recommendationsElement.innerHTML = '';
-        result.recommendations.forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item;
-          recommendationsElement.appendChild(li);
-        });
+                <label for="height">Height (cm):</label>
+                <input type="number" id="height" name="height" required>
 
-        textFeedbackElement.textContent = result.textFeedback;
+                <button type="submit" class="btn">Submit</button>
+            </form>
 
-        resultsSection.classList.remove('hidden');
-        resultsSection.scrollIntoView({ behavior: 'smooth' });
+            <div id="results">
+                <h2>Results</h2>
+                <p id="score"></p>
+                <ul id="recommendations"></ul>
 
-      } catch (error) {
-        console.error('Error submitting form:', error);
-        alert('Error submitting form. Please try again later.');
-      }
-    });
-  </script>
+                <div>
+                    <label for="income">Enter your yearly income (AED):</label>
+                    <input type="number" id="income" name="income">
+                    <button onclick="calculateInsurance()">Calculate Insurance</button>
+                    <p id="insurance"></p>
+                </div>
+            </div>
 
+            <a href="/summary.pdf" download>Download PDF Summary</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
