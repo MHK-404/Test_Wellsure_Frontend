@@ -884,20 +884,7 @@
       doc.text(`Mental Health: ${document.getElementById('mentalScore').textContent}/1000`, 14, 85);
       doc.text(`Overall Risk Score: ${document.getElementById('riskScoreValue').textContent}/1000`, 14, 95);
       
-      // Add recommendations
-      doc.setFontSize(14);
-      doc.text('Personalized Recommendations:', 14, 115);
       
-      const recommendations = [];
-      const recommendationItems = document.querySelectorAll('#recommendationsList li');
-      recommendationItems.forEach(item => recommendations.push(item.textContent));
-      
-      doc.setFontSize(12);
-      let yPosition = 125;
-      recommendations.forEach(rec => {
-          const lines = doc.splitTextToSize(rec, 180);
-          doc.text(lines, 14, yPosition);
-          yPosition += lines.length * 7 + 5;
       });
       
       // Add page border
