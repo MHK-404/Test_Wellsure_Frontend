@@ -392,24 +392,90 @@
 </head>
 <body>
 
-   <section id="intro">
-    <h1>WellSure</h1>
-    <p>
-      Welcome to <strong>Wellsure</strong> — your personalized health risk assessment tool!
+  <section id="intro">
+  <div class="intro-container">
+    <h1 class="intro-heading">Welcome to <strong>WellSure</strong></h1>
+    <p class="intro-subheading">
+      Your personalized health risk assessment tool!
     </p>
-    <p>
-      Wellsure helps you evaluate your physical health, mental wellness, and lifestyle habits through a simple questionnaire.
-      Based on your answers, we calculate a <strong>health risk score</strong> and generate <strong>customized recommendations</strong> to help you improve your well-being.
-    </p>
-    <p>
-      Our project also includes a <strong>health insurance cost calculator</strong> that estimates your potential insurance expenses based on your risk level and income.
-      You’ll be able to <strong>simulate different scenarios</strong> by adjusting your answers and instantly see how your risk and costs change.
-    </p>
-    <p>
-      After completing the assessment, you can download a <strong>PDF summary</strong> of your results and recommendations to keep track of your progress.
-    </p>
+    <div class="intro-content">
+      <p>
+        <strong>Wellsure</strong> helps you evaluate your physical health, mental wellness, and lifestyle habits through a simple questionnaire.
+        Based on your answers, we calculate a <strong>health risk score</strong> and generate <strong>customized recommendations</strong> to help you improve your well-being.
+      </p>
+      <p>
+        Our project also includes a <strong>health insurance cost calculator</strong> that estimates your potential insurance expenses based on your risk level and income.
+        You’ll be able to <strong>simulate different scenarios</strong> by adjusting your answers and instantly see how your risk and costs change.
+      </p>
+      <p>
+        After completing the assessment, you can download a <strong>PDF summary</strong> of your results and recommendations to keep track of your progress.
+      </p>
+    </div>
+  </div>
+</section>
 
-  </section>
+<style>
+  /* General styles for the intro section */
+  #intro {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    padding: 3rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  }
+
+  .intro-container {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .intro-heading {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  .intro-subheading {
+    font-size: 1.5rem;
+    color: var(--secondary);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .intro-content {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1rem;
+    color: var(--dark);
+    line-height: 1.7;
+  }
+
+  .intro-content p {
+    margin-bottom: 1.2rem;
+  }
+
+  .intro-content strong {
+    color: var(--primary);
+  }
+
+  /* Adding some responsive tweaks */
+  @media (max-width: 768px) {
+    .intro-heading {
+      font-size: 2rem;
+    }
+
+    .intro-subheading {
+      font-size: 1.3rem;
+    }
+
+    .intro-content {
+      font-size: 0.95rem;
+    }
+  }
+</style>
+
   
   <form id="riskForm">
     <fieldset class="personal-info">
